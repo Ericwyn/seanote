@@ -174,7 +174,7 @@ public class SeafileApi implements ApiInterface {
         return null;
     }
 
-    public void getServerInformation(OkHttpClient client ,Callback callback) {
+    public void getServerInformation(OkHttpClient client ,Callback callback) throws Exception{
         try {
             Request request=new Request.Builder()
                     .header("Content-Type","application/x-www-form-urlencoded")
@@ -183,7 +183,7 @@ public class SeafileApi implements ApiInterface {
                     .build();
             client.newCall(request).enqueue(callback);
         }catch (Exception e){
-            e.printStackTrace();
+            throw e;
         }
     }
     /**
@@ -236,6 +236,23 @@ public class SeafileApi implements ApiInterface {
         return null;
     }
 
+    public void listLibraries(OkHttpClient client, String token,Callback callback) {
+        try {
+            Request request=new Request.Builder()
+                    .header("Content-Type","application/x-www-form-urlencoded")
+                    .header("Authorization","Token "+token)
+                    .header("Accept","application/json")
+                    .header("indent","4")
+                    .get()
+                    .url(SERVICE_URL+"/api2/repos")
+                    .build();
+            client.newCall(request).enqueue(callback);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * use the repo_id to get the library info
      * the repo_id can get by method : List<Library> listLibraries(OkHttpClient client, String token)
@@ -262,6 +279,24 @@ public class SeafileApi implements ApiInterface {
         }
         return null;
     }
+
+    public void getLibraryInfo(OkHttpClient client, String token, String repo_id,Callback callback) {
+        Request request=new Request.Builder()
+                .header("Content-Type","application/x-www-form-urlencoded")
+                .header("Authorization","Token "+token)
+                .header("Accept","application/json")
+                .header("indent","4")
+                .get()
+                .url(SERVICE_URL+"/api2/repos/"+repo_id)
+                .build();
+        client.newCall(request).enqueue(callback);
+//        try (Response response=client.newCall(request).execute()){
+//            return JSON.parseObject(response.body().string(), Library.class);
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }
+    }
+
 
     @Override
     public List<LibraryHistory> getLibraryHistory(OkHttpClient client, String token, String repo_id) {
@@ -326,6 +361,31 @@ public class SeafileApi implements ApiInterface {
         return null;
     }
 
+    public void createNewLibrary(OkHttpClient client, String token, String libName, String desc, String password,Callback callback)  throws Exception{
+        try {
+            FormBody.Builder builder=new FormBody.Builder()
+                    .add("name",libName);
+            if(desc != null){
+                builder.add("desc",desc);
+            }
+            if(password != null){
+                builder.add("password",password);
+            }
+            RequestBody requestBody=builder.build();
+            Request request=new Request.Builder()
+                    .header("Content-Type","application/x-www-form-urlencoded")
+                    .header("Authorization","Token "+token)
+                    .header("Accept","application/json")
+                    .header("indent","4")
+                    .post(requestBody)
+                    .url(SERVICE_URL+"/api2/repos/")
+                    .build();
+            client.newCall(request).enqueue(callback);
+        }catch (Exception e){
+            throw e;
+        }
+
+    }
     /**
      * you can use this method to dele the library
      * i only test it to delete the no-encryption library

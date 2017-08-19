@@ -1,12 +1,12 @@
 package com.ericwyn.seanote.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ericwyn.seanote.R;
+import com.ericwyn.seanote.server.SeafileServer;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -22,7 +22,8 @@ public class StartActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isLogin()){
+                //findInitData 在使用的时候会判断sp是否已经存储了token，并初始化SeafileServer 里面各个static 全局变量
+                if(SeafileServer.findInitData(StartActivity.this)){
                     Intent intent=new Intent(StartActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -34,19 +35,6 @@ public class StartActivity extends AppCompatActivity {
             }
         }, 1200);
 
-    }
-
-    /**
-     * initdata 当中含有 server url，username，password，和用户对应的token,
-     * @return
-     */
-    public boolean isLogin(){
-        SharedPreferences initdate = getSharedPreferences("initdata", MODE_PRIVATE);
-        if(initdate.getString("token","null").equals("null") ){
-            return false;
-        }else {
-            return true;
-        }
     }
 
 }

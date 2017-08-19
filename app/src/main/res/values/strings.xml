@@ -6,4 +6,33 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--全局使用-->
+    <string name="network_error">网络连接失败，请检查网络</string>
+
+    <!--InitAct-->
+    <string name="init_layout_title">首次设置</string>
+    <string name="init_layout_text1">请先设置Seafile服务器地址</string>
+    <string name="init_layout_text2">服务器验证成功，请登录</string>
+    <string name="init_layout_text3">验证服务器</string>
+    <string name="init_layout_text4">请输入正确的服务器地址</string>
+    <string name="init_layout_text5">注意，未使用nginx或其他反向代理的情况下,服务器地址应当包含端口号\n如 https://cloud.seafile.com:8000</string>
+    <string name="init_layout_text6">登录邮箱</string>
+    <string name="init_layout_text7">密码</string>
+
+    <string name="init_layout_btn1">验证服务器</string>
+    <string name="init_layout_btn2">现在登录</string>
+    <string name="init_act_text1">用户验证失败，请检查登录信息</string>
+    <string name="init_act_text2">请输入服务器地址</string>
+    <string name="init_act_text3">请输入正确的登录信息</string>
+    <string name="init_layout_hini_server_url">https://demo.seafile.top</string>
+    <string name="init_demo_account">demo@seafile.com</string>
+    <string name="init_demo_pw">demoo</string>
+
+    <!--MainAct-->
+    <string name="main_act_createlib_err">错误:无法创建seanote资料库</string>
+    <string name="main_act_createlib_success">成功创建seanote资料库</string>
+    <string name="main_act_createlib_havelib">成功查找到seanote资料库</string>
+    <string name="main_act_lib_expired">数据库连接失败,尝试重新创建</string>
+
 </resources>

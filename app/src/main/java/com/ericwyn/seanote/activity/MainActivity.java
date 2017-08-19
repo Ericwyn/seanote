@@ -1,6 +1,7 @@
 package com.ericwyn.seanote.activity;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -9,14 +10,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ericwyn.seanote.R;
+import com.ericwyn.seanote.server.SeafileServer;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG="MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +54,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //successed in creating the seanote's library and getting repo_id for the further development
+        //验证repo_id 是否是错误的或者不存在的
+        checkoutRepoID();
     }
 
     @Override
@@ -100,4 +116,33 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void checkoutRepoID(){
+        if(!SeafileServer.getRepo_id().equals("null")){
+            SeafileServer.getApi().getLibraryInfo(SeafileServer.getClient(), SeafileServer.getToken(), SeafileServer.getRepo_id(), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this,R.string.network_error,Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        Log.d(TAG,"repo_id验证成功");
+//                        Toast.makeText(MainActivity.this,R.string.)
+                    }else {
+                        Looper.prepare();
+                        Toast.makeText(MainActivity.this,R.string.main_act_lib_expired,Toast.LENGTH_SHORT).show();
+                        SeafileServer.createSeanoteLib(MainActivity.this);
+                        Looper.loop();
+                    }
+                }
+            });
+        }else {
+            SeafileServer.createSeanoteLib(MainActivity.this);
+        }
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.ericwyn.seanote.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
@@ -75,16 +74,20 @@ public class InitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(til_server_url.getEditText().getText().toString().equals("")){
                     tv_serverurl.setTextColor(getResources().getColor(R.color.fancy_accent));
-                    tv_serverurl.setText("请输入服务器地址");
+                    tv_serverurl.setText(R.string.init_act_text2);
                 }else {
-                    SeafileServer.checkServer(til_server_url.getEditText().getText().toString(),new Callback(){
+                    String server_url_temp="";
+                    if((server_url_temp=til_server_url.getEditText().getText().toString()).endsWith("/")){
+                        server_url_temp=server_url_temp.substring(0,server_url_temp.length()-1);
+                    }
+                    SeafileServer.checkServer(server_url_temp,new Callback(){
                         @Override
                         public void onFailure(Call call, IOException e) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     tv_serverurl.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                    tv_serverurl.setText("网络连接失败，请检查网络");
+                                    tv_serverurl.setText(R.string.init_layout_text4);
                                 }
                             });
                         }
@@ -119,7 +122,7 @@ public class InitActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
-                            tv_checkAcRes_InitAct.setText("请输入正确的登录信息");
+                            tv_checkAcRes_InitAct.setText(R.string.init_act_text3);
                         }
                     });
                 }else {
@@ -132,7 +135,7 @@ public class InitActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                            tv_checkAcRes_InitAct.setText("网络连接失败，请检查网络");
+                                            tv_checkAcRes_InitAct.setText(R.string.network_error);
                                         }
                                     });
                                 }
@@ -151,15 +154,17 @@ public class InitActivity extends AppCompatActivity {
                                             }
                                             if(token==null || token.equals("null")){
                                                 tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                                tv_checkAcRes_InitAct.setText("用户验证失败，请检查登录信息");
+                                                tv_checkAcRes_InitAct.setText(R.string.init_act_text1);
                                             }else {
-//                                            tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_dark_black));
-//                                            tv_checkAcRes_InitAct.setText("登录成功，token ："+token);
-                                                saveInitData(til_server_url.getEditText().getText().toString(),
+                                                String server_url_temp="";
+                                                if((server_url_temp=til_server_url.getEditText().getText().toString()).endsWith("/")){
+                                                    server_url_temp=server_url_temp.substring(0,server_url_temp.length()-1);
+                                                }
+                                                SeafileServer.saveInitData(server_url_temp,
                                                         til_account.getEditText().getText().toString(),
                                                         til_pw.getEditText().getText().toString(),
-                                                        token);
-
+                                                        token,
+                                                        InitActivity.this);
                                                 Intent intent=new Intent(InitActivity.this,MainActivity.class);
                                                 startActivity(intent);
                                                 finish();
@@ -171,8 +176,6 @@ public class InitActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         mViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -181,14 +184,5 @@ public class InitActivity extends AppCompatActivity {
         });
     }
 
-    public void saveInitData(String server_url,String mail,String pw,String token){
-        SharedPreferences initdata = getSharedPreferences("initdata", MODE_PRIVATE);
-        SharedPreferences.Editor editor=initdata.edit();
-        editor.putString("server_url",server_url);
-        editor.putString("mail",mail);
-        editor.putString("pw",pw);
-        editor.putString("token",token);
-        editor.apply();
-    }
 
 }

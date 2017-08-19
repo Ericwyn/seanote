@@ -17,7 +17,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:text="服务器验证成功，请登录"
+        android:text="@string/init_layout_text2"
         android:textColor="@color/fancy_dark_black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:text="首次设置"
+        android:text="@string/init_layout_title"
         android:textColor="@color/fancy_orange"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,6 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="服务器地址  :  "
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -94,7 +93,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:background="@color/fancy_orange"
-        android:text="现在登录"
+        android:text="@string/init_layout_btn2"
         android:textColor="@color/fancy_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -122,9 +121,10 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:hint="@string/init_layout_text6"
             android:inputType="textEmailAddress"
-            android:hint="登录邮箱"/>
+            android:singleLine="true"
+            android:text="@string/init_demo_account"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -144,11 +144,12 @@
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
-            android:singleLine="true"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="密码"/>
+            android:hint="@string/init_layout_text7"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:text="@string/init_demo_pw"/>
     </android.support.design.widget.TextInputLayout>
 
     <TextView
