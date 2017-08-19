@@ -1,7 +1,7 @@
 # SeaNote
 
 ## Introduction
-seanote is an cloud notes appliction run on Android, work together with the seafile.
+seanote is a cloud notes app run on Android, work together with the seafile.
 
 ### Features
  - Markdown syntax support
