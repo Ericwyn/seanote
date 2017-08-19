@@ -113,16 +113,15 @@
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginEnd="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
-        android:text="注意，未使用nginx获其他反向代理的情况下,服务器地址应当包含端口号\n如https://cloud.meetwhy.com:8000: "
+        android:layout_marginTop="8dp"
+        android:text="注意，未使用nginx或其他反向代理的情况下,服务器地址应当包含端口号\n如 https://cloud.seafile.com:8000"
         app:layout_constraintBottom_toTopOf="@+id/bt_checkServerUrl_InitVP"
         app:layout_constraintLeft_toLeftOf="@+id/til_serverurl_InitAct"
         app:layout_constraintRight_toRightOf="@+id/til_serverurl_InitAct"
-        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/tv_serverurl"
         app:layout_constraintVertical_bias="0.0"/>
 

@@ -25,12 +25,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:25.3.0'
+    compile files('/media/ericwyn/Work/Chaos/AndroidStudioProjects/SeaNote/libs/fastjson-1.2.36.jar')
     compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support:support-v13:25.3.0'
     compile 'com.android.support:design:25.3.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile files('/media/ericwyn/Work/Chaos/AndroidStudioProjects/SeaNote/libs/fastjson-1.2.36.jar')
+    testCompile 'junit:junit:4.12'
 }

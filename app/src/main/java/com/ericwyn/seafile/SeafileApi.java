@@ -76,16 +76,21 @@ public class SeafileApi implements ApiInterface {
     }
 
     public void obtainAuthToken(OkHttpClient client, String username, String password, Callback callback) {
-        RequestBody body=new FormBody.Builder()
-                .add("username",username)
-                .add("password",password)
-                .build();
-        Request request=new Request.Builder()
-                .url(SERVICE_URL+"/api2/auth-token/")
-                .header("Content-Type","application/x-www-form-urlencoded")
-                .post(body)
-                .build();
-        client.newCall(request).enqueue(callback);
+        try {
+            RequestBody body=new FormBody.Builder()
+                    .add("username",username)
+                    .add("password",password)
+                    .build();
+            Request request=new Request.Builder()
+                    .url(SERVICE_URL+"/api2/auth-token/")
+                    .header("Content-Type","application/x-www-form-urlencoded")
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(callback);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /**

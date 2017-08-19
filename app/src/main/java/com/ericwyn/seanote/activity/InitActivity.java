@@ -1,5 +1,7 @@
 package com.ericwyn.seanote.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
@@ -71,7 +73,10 @@ public class InitActivity extends AppCompatActivity {
         btn_checkServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                if(til_server_url.getEditText().getText().toString().equals("")){
+                    tv_serverurl.setTextColor(getResources().getColor(R.color.fancy_accent));
+                    tv_serverurl.setText("请输入服务器地址");
+                }else {
                     SeafileServer.checkServer(til_server_url.getEditText().getText().toString(),new Callback(){
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -79,7 +84,7 @@ public class InitActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     tv_serverurl.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                    tv_serverurl.setText("服务器错误");
+                                    tv_serverurl.setText("网络连接失败，请检查网络");
                                 }
                             });
                         }
@@ -99,52 +104,71 @@ public class InitActivity extends AppCompatActivity {
                             });
                         }
                     });
-                }catch (Exception e){
-                    e.printStackTrace();
                 }
+
+
             }
         });
 
         btn_checkAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SeafileServer.getUserToken(til_account.getEditText().getText().toString(),
-                        til_pw.getEditText().getText().toString(),
-                        new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                        tv_checkAcRes_InitAct.setText("用户验证失败");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onResponse(Call call, final Response response) throws IOException {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                        String token="";
-                                        try {
-                                            token= JSON.parseObject(response.body().string()).getString("token");
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        if(token.equals("null")){
+                if(til_account.getEditText().getText().toString().equals("") ||
+                        til_pw.getEditText().getText().toString().equals("")){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
+                            tv_checkAcRes_InitAct.setText("请输入正确的登录信息");
+                        }
+                    });
+                }else {
+                    SeafileServer.getUserToken(til_account.getEditText().getText().toString(),
+                            til_pw.getEditText().getText().toString(),
+                            new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
                                             tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
-                                            tv_checkAcRes_InitAct.setText("用户验证失败");
-                                        }else {
-                                            tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_dark_black));
-                                            tv_checkAcRes_InitAct.setText("登录成功，token ："+token);
+                                            tv_checkAcRes_InitAct.setText("网络连接失败，请检查网络");
                                         }
-                                    }
-                                });
-                            }
-                        });
+                                    });
+                                }
+
+                                @Override
+                                public void onResponse(Call call, final Response response) throws IOException {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
+                                            String token="";
+                                            try {
+                                                token= JSON.parseObject(response.body().string()).getString("token");
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                            if(token==null || token.equals("null")){
+                                                tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_accent));
+                                                tv_checkAcRes_InitAct.setText("用户验证失败，请检查登录信息");
+                                            }else {
+//                                            tv_checkAcRes_InitAct.setTextColor(getResources().getColor(R.color.fancy_dark_black));
+//                                            tv_checkAcRes_InitAct.setText("登录成功，token ："+token);
+                                                saveInitData(til_server_url.getEditText().getText().toString(),
+                                                        til_account.getEditText().getText().toString(),
+                                                        til_pw.getEditText().getText().toString(),
+                                                        token);
+
+                                                Intent intent=new Intent(InitActivity.this,MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                }
             }
         });
 
@@ -156,4 +180,15 @@ public class InitActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void saveInitData(String server_url,String mail,String pw,String token){
+        SharedPreferences initdata = getSharedPreferences("initdata", MODE_PRIVATE);
+        SharedPreferences.Editor editor=initdata.edit();
+        editor.putString("server_url",server_url);
+        editor.putString("mail",mail);
+        editor.putString("pw",pw);
+        editor.putString("token",token);
+        editor.apply();
+    }
+
 }
