@@ -21,5 +21,3 @@ seanote is a cloud notes app run on Android, work together with the seafile.
 
 ## Dependency
  - [Seafile_WebApi](https://github.com/Ericwyn/Seafile_WebApi)
- - BaseRecyclerViewAdapterHelper-2.9.27
- - fastjson-1.2.36
