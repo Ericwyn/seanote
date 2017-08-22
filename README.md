@@ -20,8 +20,8 @@ seanote is a cloud notes app run on Android, work together with the seafile.
     - ![pic2](https://github.com/Ericwyn/seanote/blob/master/screenshots/0_2.png?raw=true)
     - ![pic3](https://github.com/Ericwyn/seanote/blob/master/screenshots/0_3.png?raw=true)
     - ![pic4](https://github.com/Ericwyn/seanote/blob/master/screenshots/0_4.png?raw=true)
-    - ![pic5](https://github.com/Ericwyn/seanote/blob/master/screenshots/1_0.png?raw=true)
-    - ![pic6](https://github.com/Ericwyn/seanote/blob/master/screenshots/1_1.png?raw=true)
+    - ![pic5](https://github.com/Ericwyn/seanote/blob/master/screenshots/1_0.jpg?raw=true)
+    - ![pic6](https://github.com/Ericwyn/seanote/blob/master/screenshots/1_1.jpg?raw=true)
 
 ## Dependency
  - [Seafile_WebApi](https://github.com/Ericwyn/Seafile_WebApi)
