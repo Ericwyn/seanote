@@ -34,5 +34,8 @@
     <string name="main_act_createlib_success">成功创建seanote资料库</string>
     <string name="main_act_createlib_havelib">成功查找到seanote资料库</string>
     <string name="main_act_lib_expired">数据库连接失败,尝试重新创建</string>
+    <string name="main_act_toolbar_title">最近笔记</string>
 
+    <!--PreviewAct-->
+    <string name="pre_act_toolbar_title">预览</string>
 </resources>

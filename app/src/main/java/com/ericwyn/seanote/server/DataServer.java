@@ -2,6 +2,7 @@ package com.ericwyn.seanote.server;
 
 import android.os.Environment;
 
+import com.ericwyn.seanote.Util.FileUtil;
 import com.ericwyn.seanote.entity.Note;
 
 import java.io.File;
@@ -31,26 +32,44 @@ public class DataServer {
             seanoDir.mkdir();
         }
         try {
-
-            File file = new File(seanoDir,"testFile1.md");
-            source = Okio.source(file);
-            bufferedSource = Okio.buffer(source);
-
-        } catch (IOException e){
+            for (File file:seanoDir.listFiles()){
+                source = Okio.source(file);
+                bufferedSource = Okio.buffer(source);
+                Note note=new Note(file.getName(),bufferedSource.readUtf8());
+                note.setFilePath(file.getAbsolutePath());
+                dataList.add(note);
+            }
+        }catch (IOException e){
             e.printStackTrace();
         }
+
         return dataList;
     }
 
     /**
      * 创建测试文件的方法
      */
-    private void createTestFile(){
+    private static void createTestFile(){
         File seanoDir=new File(Environment.getExternalStorageDirectory(),"seanote");
         File[] files=seanoDir.listFiles();
-
+        boolean flag=true;
         for (File file:files){
+            if(file.getName().startsWith("testFile")){
+                flag=false;
+                break;
+            }
+        }
+        if(flag){
+            File file=new File(seanoDir, FileUtil.getFileName("testFile"));
+        }
+    }
 
+    public static String getWordShowInCard(String text){
+        text=text.replaceAll("\n\n","\n");
+        if(text.length()>250){
+            return text.substring(0,250);
+        }else{
+            return text;
         }
     }
 

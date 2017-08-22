@@ -1,14 +1,16 @@
 package com.ericwyn.seanote.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ericwyn.seanote.R;
+import com.ericwyn.seanote.adapter.MainRvAdapter;
+import com.ericwyn.seanote.entity.Note;
 import com.ericwyn.seanote.server.SeafileServer;
 
 import java.io.IOException;
@@ -29,20 +34,22 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG="MainActivity";
     private static boolean repoIdCheckFlag=false;
+    private RecyclerView notesRecyclerView;
+    private MainRvAdapter mainRvAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.main_act_toolbar_title);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                mainRvAdapter.addHeaderView()
             }
         });
 
@@ -55,9 +62,29 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        notesRecyclerView=(RecyclerView)findViewById(R.id.noteRecyclerView_MainAct);
+        notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));//这里用线性显示 类似于listview
+        mainRvAdapter=new MainRvAdapter();
+        mainRvAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Intent intent=new Intent(MainActivity.this,PreviewActivity.class);
+                Bundle bundle=new Bundle();
+                Note note=(Note)baseQuickAdapter.getItem(i);
+                bundle.putString("filePath",note.getFilePath());
+                bundle.putString("title",note.getTitle());
+                bundle.putString("word",note.getWords());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        mainRvAdapter.openLoadAnimation();
+        notesRecyclerView.setAdapter(mainRvAdapter);
+//        notesRecyclerView.setVisibility(View.INVISIBLE);
         //successed in creating the seanote's library and getting repo_id for the further development
         //验证repo_id 是否是错误的或者不存在的
         checkoutRepoID();
+
 
 
     }
