@@ -9,7 +9,7 @@
 
     <!--全局使用-->
     <string name="network_error">网络连接失败，请检查网络</string>
-
+    <string name="per_storage">请给予内置存储访问权限以使seanote正确运行</string>
     <!--InitAct-->
     <string name="init_layout_title">首次设置</string>
     <string name="init_layout_text1">请先设置Seafile服务器地址</string>
@@ -38,4 +38,9 @@
 
     <!--PreviewAct-->
     <string name="pre_act_toolbar_title">预览</string>
+
+    <!--EditAct-->
+    <string name="edit_act_positive_btn_dialog">保存</string>
+    <string name="edit_act_negative_btn_dialog">取消</string>
+
 </resources>

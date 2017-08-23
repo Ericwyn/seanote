@@ -1,6 +1,6 @@
 package com.ericwyn.seanote.entity;
 
-import com.ericwyn.seanote.Util.FileUtil;
+import com.ericwyn.seanote.Util.NoteUtils;
 
 /**
  * 笔记 .md 文件的映射类
@@ -31,9 +31,9 @@ public class Note {
     public Note(String fileName,String words){
         this.fileName=fileName;
         this.words=words;
-        this.title= FileUtil.getNoteName(fileName);
-        this.createTime=FileUtil.getNoteCreateTime(fileName);
-        this.id=FileUtil.getNoteFileId(fileName);
+        this.title= NoteUtils.getNoteNameByFileName(fileName);
+        this.createTime= NoteUtils.getNoteCreateTime(fileName);
+        this.id= NoteUtils.getNoteFileId(fileName);
     }
 
 

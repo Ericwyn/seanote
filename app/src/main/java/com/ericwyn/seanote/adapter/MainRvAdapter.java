@@ -7,6 +7,8 @@ import com.ericwyn.seanote.R;
 import com.ericwyn.seanote.entity.Note;
 import com.ericwyn.seanote.server.DataServer;
 
+import java.util.List;
+
 /**
  * 主页面的RecyclerView
  * 使用了BRVAH 框架
@@ -16,9 +18,9 @@ import com.ericwyn.seanote.server.DataServer;
  */
 
 public class MainRvAdapter extends BaseQuickAdapter<Note, BaseViewHolder> {
-    public MainRvAdapter(){
+    public MainRvAdapter(List<Note> data){
         //绑定数据源和视图
-        super(R.layout.note_rv_item_main, DataServer.loadData());
+        super(R.layout.note_rv_item_main,data);
     }
 
     @Override
