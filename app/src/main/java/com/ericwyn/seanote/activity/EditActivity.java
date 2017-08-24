@@ -114,14 +114,20 @@ public class EditActivity extends AppCompatActivity {
 
     private void saveNote(){
         if(firstCreateFlag){
-            note.setTitle(et_title.getText().toString());
-            note.setWords(et_word.getText().toString());
-            note.setFileName(note.getTitle()+"=-="+note.getId()+".md");
-            note.setCreateTime(NoteUtils.getNoteCreateTime(note.getFileName()));
-            File noteDir=new File(StartActivity.seanoDir,fileDir);
-            note.setFilePath(new File(noteDir,note.getFileName()).getAbsolutePath());
-            saveNewNote();
-            finish();
+            if(et_word.getText().toString().equals("") && et_title.getText().toString().equals("")){
+                Intent intent=new Intent(EditActivity.this,PreviewActivity.class);
+                this.setResult(RESULT_CANCELED,intent);
+                finish();
+            }else {
+                note.setTitle(et_title.getText().toString());
+                note.setWords(et_word.getText().toString());
+                note.setFileName(note.getTitle()+"=-="+note.getId()+".md");
+                note.setCreateTime(NoteUtils.getNoteCreateTime(note.getFileName()));
+                File noteDir=new File(StartActivity.seanoDir,fileDir);
+                note.setFilePath(new File(noteDir,note.getFileName()).getAbsolutePath());
+                saveNewNote();
+                finish();
+            }
         }else {
             note.setTitle(et_title.getText().toString());
             note.setWords(et_word.getText().toString());

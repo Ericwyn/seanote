@@ -126,11 +126,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }else {
-//                    this.data=DataServer.loadData();
-//                    synchronized (this){
-//                        mainRvAdapter.notifyDataSetChanged();
-//                    }
-                    Log.d(TAG,"无notifyData,没有获取position");
+                    Log.d(TAG,"无数据更新,position 为-1");
                 }
             }
         }

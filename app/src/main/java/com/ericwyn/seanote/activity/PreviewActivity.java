@@ -102,6 +102,12 @@ public class PreviewActivity extends AppCompatActivity {
             if(resultCode==RESULT_OK){
                 note=JSON.parseObject(data.getStringExtra("obj"),Note.class);
                 showMdText(md_word,note);
+            }else if(resultCode == RESULT_CANCELED){
+                Log.d(TAG,"编辑返回Main");
+                Intent intent=new Intent();
+                intent.putExtra("position",-1);
+                setResult(RESULT_OK,intent);
+                finish();
             }
 
         }
